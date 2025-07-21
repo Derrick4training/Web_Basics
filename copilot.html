@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <meta charset="UTF-8">
+    <title>用户信息表单</title>
+    <style>
+        .error { color: red; }
+        .result { margin-top: 20px; padding: 10px; border: 1px solid #ccc; }
+    </style>
+</head>
+<body>
+    <h2>请输入您的信息</h2>
+    <form id="userForm">
+        <label>姓名: <input type="text" name="name" required></label><br><br>
+        <label>年龄: <input type="number" name="age" required min="10" max="100"></label><br><br>
+        <label>性别:
+            <input type="radio" name="gender" value="男" required> 男
+            <input type="radio" name="gender" value="女"> 女
+            <input type="radio" name="gender" value="其他"> 其他
+        </label><br><br>
+        <label>地址:<br>
+            <textarea name="address" rows="3" cols="30"></textarea>
+        </label><br><br>
+        <label>城市:
+            <select name="city" required>
+                <option value="">请选择城市</option>
+                <option value="北京">北京</option>
+                <option value="上海">上海</option>
+                <option value="广州">广州</option>
+                <option value="深圳">深圳</option>
+                <option value="其他">其他</option>
+            </select>
+        </label><br><br>
+        <label>邮编: <input type="text" name="zipcode" pattern="\d{6}" maxlength="6" required></label><br><br>
+        <label>爱好:<br>
+            <input type="checkbox" name="hobbies" value="看电影"> 看电影
+            <input type="checkbox" name="hobbies" value="唱歌"> 唱歌
+            <input type="checkbox" name="hobbies" value="听音乐"> 听音乐
+            <input type="checkbox" name="hobbies" value="阅读"> 阅读
+            <input type="checkbox" name="hobbies" value="户外运动"> 户外运动
+            <input type="checkbox" name="hobbies" value="室内运动"> 室内运动
+        </label><br><br>
+        <button type="submit">提交</button>
+        <div id="errorMsg" class="error"></div>
+    </form>
+    <div id="result" class="result" style="display:none;"></div>
+
+    <script>
+        document.getElementById('userForm').onsubmit = function(e) {
+            e.preventDefault();
+            let error = '';
+            const form = e.target;
+            const name = form.name.value.trim();
+            const age = form.age.value.trim();
+            const gender = form.gender.value;
+            const address = form.address.value.trim();
+            const city = form.city.value;
+            const zipcode = form.zipcode.value.trim();
+            const hobbies = Array.from(form.querySelectorAll('input[name="hobbies"]:checked')).map(cb => cb.value);
+
+            if (!name) error += '姓名不能为空。<br>';
+            if (!age || isNaN(age) || age < 10 || age > 100) error += '年龄必须是10到100之间的数字。<br>';
+            if (!gender) error += '请选择性别。<br>';
+            if (!city) error += '请选择城市。<br>';
+            if (!zipcode.match(/^\d{6}$/)) error += '邮编必须为6位数字。<br>';
+
+            if (error) {
+                document.getElementById('errorMsg').innerHTML = error;
+                document.getElementById('result').style.display = 'none';
+            } else {
+                document.getElementById('errorMsg').innerHTML = '';
+                document.getElementById('result').style.display = 'block';
+                document.getElementById('result').innerHTML = `
+                    <strong>您的信息：</strong><br>
+                    姓名：${name}<br>
+                    年龄：${age}<br>
+                    性别：${gender}<br>
+                    地址：${address}<br>
+                    城市：${city}<br>
+                    邮编：${zipcode}<br>
+                    爱好：${hobbies.length ? hobbies.join('、') : '无'}
+                `;
+            }
+        };
+    </script>
+</body>
+</html>
