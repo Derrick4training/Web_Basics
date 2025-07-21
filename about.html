@@ -14,8 +14,44 @@
             text-align: justify;
         }
     </style>
+    <script> 
+        alert("Welcome to About Page"); // This alert will pop up when the page loads
+        let customBackgroundColor = prompt("Please enter background color:"); // This prompt will ask for the user's name
+
+        function imgChangeDimensions() {
+            const img = document.querySelector('terracotta');
+            img.style.width = '300px';
+            img.style.height = '300px';
+        }
+
+        function imgbig() {
+            const img = document.getElementById('terracotta');
+            img.style.width = '500px';
+            img.style.height = '500px';
+        }
+
+        function imgsmall() {
+            const img = document.getElementById('terracotta');
+            img.style.width = '200px';
+            img.style.height = '200px';
+        }
+              // This script changes the background color of the page when it loads inside the <head> tag
+        //window.onload = function() {document.body.style.backgroundColor = "red";}
+
+        function changeTextColor() {//need to call
+            document.querySelector('h1').style.color = 'black';
+        }
+        function changeBackgroundColor() {
+            document.body.style.backgroundColor = customBackgroundColor;
+        }
+
+
+    </script>
 </head>
-<body>
+<body onload="changeBackgroundColor()"> 
+    <!-- //both are onload, so how to make the first one in use when i use inline function calling here?
+    should i also call it here? -->
+
     <h1>About us</h1>
     <p>
         We are a team of passionate individuals dedicated to providing the best travel experiences in Xian.
@@ -27,5 +63,6 @@
         If you have any questions or need assistance, feel free to reach out to us.
 
     </p>
+    <img id = "terracotta" src="neuedawallpaper.png" alt="Placeholder Image" style="display: block; margin: 0 auto; width: 200px; border-radius: 50%;">
 </body>
 </html>
